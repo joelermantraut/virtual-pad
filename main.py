@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 import time
 import HandTracking as ht
+import pyautogui
 
 def main():
     ### Variables Declaration
@@ -18,7 +19,7 @@ def main():
     cap.set(4, height)
 
     detector = ht.HandDetector(maxHands=1)                  # Detecting one hand at max
-    screen_width, screen_height = autopy.screen.size()      # Getting the screen size
+    screen_width, screen_height = pyautogui.size()          # Getting the screen size
     while True:
         success, img = cap.read()
         img = detector.findHands(img)                       # Finding the hand
@@ -34,10 +35,10 @@ def main():
                 x3 = np.interp(x1, (frameR,width-frameR), (0,screen_width))
                 y3 = np.interp(y1, (frameR, height-frameR), (0, screen_height))
 
-                curr_x = prev_x + (x3 - prev_x)/smoothening
+                curr_x = prev_x + (x3 - prev_x) / smoothening
                 curr_y = prev_y + (y3 - prev_y) / smoothening
 
-                autopy.mouse.move(screen_width - curr_x, curr_y)    # Moving the cursor
+                pyautogui.moveTo(screen_width - curr_x, curr_y, pyautogui.MINIMUM_DURATION) # Moving the cursor
                 cv2.circle(img, (x1, y1), 7, (255, 0, 255), cv2.FILLED)
                 prev_x, prev_y = curr_x, curr_y
 
@@ -46,7 +47,7 @@ def main():
 
                 if length < 40:     # If both fingers are really close to each other
                     cv2.circle(img, (lineInfo[4], lineInfo[5]), 15, (0, 255, 0), cv2.FILLED)
-                    autopy.mouse.click()    # Perform Click
+                    pyautogui.click() # Perform Click
 
         cTime = time.time()
         fps = 1/(cTime-pTime)
