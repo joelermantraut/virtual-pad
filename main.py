@@ -26,11 +26,15 @@ def main():
     while True:
         success, img = cap.read()
 
+        img = cv2.flip(img, 0)
+        # Needs a X mirror because was written to take palm
+        # and in this mode is capturing dorsum
+
         if not success:
             continue
 
-        img = detector.findHands(img, False)                       # Finding the hand
-        lmlist, bbox = detector.findPosition(img)           # Getting position of hand
+        img = detector.findHands(img, False)                      # Finding the hand
+        lmlist, bbox = detector.findPosition(img)                 # Getting position of hand
 
         if len(lmlist)!=0:
             x1, y1 = lmlist[8][1:]
