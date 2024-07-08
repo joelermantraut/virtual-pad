@@ -5,7 +5,7 @@ import math
 import numpy as np
 
 
-class handDetector():
+class HandDetector():
     def __init__(self, mode=False, maxHands=2, detectionCon=False, trackCon=0.5):
         self.mode = mode
         self.maxHands = maxHands
