@@ -2,13 +2,13 @@ import cv2
 import numpy as np
 import HandTracking as ht
 import pyautogui
+import time
 
 def main():
     ### Variables Declaration
     width = 640             # Width of Camera
     height = 480            # Height of Camera
     frameR = 100            # Frame Rate
-    smoothening = 1         # Smoothening Factor
     prev_x, prev_y = 0, 0   # Previous coordinates
     curr_x, curr_y = 0, 0   # Current coordinates
     samples = 5
@@ -42,8 +42,8 @@ def main():
                 x3 = np.interp(x1, (frameR,width-frameR), (0,screen_width))
                 y3 = np.interp(y1, (frameR, height-frameR), (0, screen_height))
 
-                curr_x = prev_x + (x3 - prev_x) / smoothening
-                curr_y = prev_y + (y3 - prev_y) / smoothening
+                curr_x = prev_x + (x3 - prev_x)
+                curr_y = prev_y + (y3 - prev_y)
                 # Calculates mouse position from finger position
 
                 samples_index = (samples_index + 1) % samples
